@@ -1,5 +1,7 @@
 package com.example.jwt.config.jwt;
 
+import com.example.jwt.config.auth.PrincipalDetails;
+import com.example.jwt.config.auth.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,18 +17,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class FormLoginProvider implements AuthenticationProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final PrincipalDetailsService principalDetailsService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        System.out.println("로그인 Provider를 거침");
+        System.out.println("로그인 Provider 를 거침");
 
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        UserDetails userDetails = (UserDetails) userDetailsService.loadUserByUsername(username);
+        PrincipalDetails userDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
 
         if(passwordEncoder.matches(password, userDetails.getPassword())){
             return new UsernamePasswordAuthenticationToken(userDetails, null);

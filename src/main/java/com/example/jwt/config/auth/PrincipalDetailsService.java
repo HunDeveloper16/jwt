@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 // http://localhost:8080/login  => 여기서 동작을 안한다.
 @Service
 @RequiredArgsConstructor
-public class PricipalDetailsService implements UserDetailsService {
+public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
