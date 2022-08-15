@@ -25,9 +25,13 @@ import java.util.Date;
 // /login 요청해서 username, password 전송하면 (post)
 // UsernamePasswordAuthenticationFilter가 동작을 함.
 // 원래 UsernamePasswordAuthenticationFilter는 formLogin()으로 작동하지만 formLogin()을 꺼뒀기 때문에 이 클래스를 securitConfig()에 add해서 추가해준다.
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private final AuthenticationManager authenticationManager;
+//    private final AuthenticationManager authenticationManager;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
 
    // /login 요청을 하면 로그인 시도를 위해서 실행되는 함수
     @Override
@@ -50,24 +54,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             //PrincipalDetailsService의 loadUserByUsername()함수가 실행된 후 정상이면 authentication이 리턴됨.
             // DB에 있는 username과 password가 일치한다.
-            Authentication authentication =
-                    authenticationManager.authenticate(authenticationToken); //authenticationManager에 토큰을 넣어서 던지면 인증을 해줌 -> 인증이되면 authentication에 담김
-                                                                                //여기서 authentication에 로그인 정보가 담김
+//            Authentication authentication =
+//                    authenticationManager.authenticate(authenticationToken); //authenticationManager에 토큰을 넣어서 던지면 인증을 해줌 -> 인증이되면 authentication에 담김
+//                                                                                //여기서 authentication에 로그인 정보가 담김
 
-            // 로그인이 되었다는 뜻.
-            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            System.out.println("로그인 완료됨:"+principalDetails.getUser().getUsername());  //콘솔에 찍힌다는건 로그인이 되었다는 뜻
+//            // 로그인이 되었다는 뜻.
+//            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+//            System.out.println("로그인 완료됨:"+principalDetails.getUser().getUsername());  //콘솔에 찍힌다는건 로그인이 되었다는 뜻
 
             // authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해주면 됨.
             // 리턴의 이유는 권한 관리를 security 가 대신 해주기 때문에 편하려고 하는것
             // 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 그러나 단지 권한 처리때문에 session을 넣어 준다.
 
-            return authentication;
+//            return authentication;
+
+            return getAuthenticationManager().authenticate(authenticationToken);
+
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("잘못된 로그인 정보입니다.");
         }
-        return null;
     }
 
     // attemptAuthenitcation실행 후 인증이 정상적으로 되었으면 successfulAuthenticatino 함수가 실행된다.

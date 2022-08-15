@@ -3,14 +3,13 @@ package com.example.jwt.config.jwt;
 import com.example.jwt.config.auth.PrincipalDetails;
 import com.example.jwt.config.auth.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -18,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class FormLoginProvider implements AuthenticationProvider {
 
     private final PrincipalDetailsService principalDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -39,6 +39,6 @@ public class FormLoginProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {                    // token 타입에 따라서 언제 provider를 사용할지 조건을 지정할 수 있다.
-        return UsernamePasswordAuthenticationToken.class==authentication; // provider의 supports 값이 false를 리턴하면, provider의 authenticate 메소드가 호출되지 않는다.
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 }

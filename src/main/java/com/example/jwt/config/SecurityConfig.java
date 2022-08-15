@@ -1,5 +1,7 @@
 package com.example.jwt.config;
 
+import com.example.jwt.config.auth.PrincipalDetailsService;
+import com.example.jwt.config.jwt.FormLoginProvider;
 import com.example.jwt.config.jwt.JwtAuthenticationFilter;
 import com.example.jwt.config.jwt.JwtAuthorizationFilter;
 import com.example.jwt.filter.MyFilter1;
@@ -8,6 +10,8 @@ import com.example.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
     private final UserRepository userRepository;
+    private final PrincipalDetailsService principalDetailsService;
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public FormLoginProvider customAuthenticationProvider() {
+        return new FormLoginProvider(principalDetailsService,bCryptPasswordEncoder());
+    }
 
 
     @Override
@@ -57,4 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll();
     }
+
+
 }
