@@ -27,5 +27,5 @@ AccesToken과 공격자에게 받은 AccesToken이 다른것을 확인한다.
 이는 서버가 RefreshToken을 탈취 당했다고 생각하고 두 토큰을 폐기 시킨다.
 
 
-## 인증관련 아키텍쳐
+## 👉 인증관련 아키텍쳐
 <img width="920" alt="인증관련_architecture" src="https://user-images.githubusercontent.com/56526225/191224926-8d699e20-cd5a-4cb2-8ea1-45a795e8ff15.png">
