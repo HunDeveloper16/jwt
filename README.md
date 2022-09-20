@@ -29,3 +29,5 @@ AccesToken과 공격자에게 받은 AccesToken이 다른것을 확인한다.
 
 ## 👉 인증관련 아키텍쳐
 <img width="920" alt="인증관련_architecture" src="https://user-images.githubusercontent.com/56526225/191224926-8d699e20-cd5a-4cb2-8ea1-45a795e8ff15.png">
+
+## https://www.notion.so/JWT-f9ecb0b9eed444c7b95706a99c0cdda4
